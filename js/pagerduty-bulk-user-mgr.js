@@ -316,6 +316,82 @@ const populateUsersResult = function() {
         })
 }
 
+
+/**********************
+ * USER EXPORT
+ **********************/
+const processUsers = function(userArrays) {
+    let tableData = [];
+    userArrays.forEach(function(array) {
+        array.users.map((user) => {
+            let methods = {
+                phone: [],
+                email: [],
+                sms: [],
+                push: []
+            }
+
+            user.contact_methods.forEach(function(method) {
+                switch (method.type) {
+                    case "email_contact_method":
+                        methods.email.push(method.address);
+                        break;
+                    case "phone_contact_method":
+                        methods.phone.push(method.address);
+                        break;
+                    case "push_notification_contact_method":
+                        methods.push.push(method.address);
+                        break;
+                    case "sms_contact_method":
+                        methods.sms.push(method.address);
+                        break;
+                }
+            });
+
+            let teams = [];
+            user.teams.forEach(function(team) {
+                teams.push(team.summary);
+            });
+
+            tableData.push(
+                [
+                    user.id,
+                    user.name,
+                    user.email,
+                    user.job_title,
+                    user.role,
+                    teams.join(),
+                    methods.email.join(),
+                    methods.phone.join(),
+                    methods.sms.join()
+                ]
+            );
+        })
+    });
+
+    $('#users-export-result-table').DataTable({
+        data: tableData,
+        columns: [
+            { title: "PD User ID" },
+            { title: "User Name" },
+            { title: "Login" },
+            { title: "Title" },
+            { title: "PD Role" },
+            { title: "Teams" },
+            { title: "Contact email" },
+            { title: "Contact phone" },
+            { title: "Contact sms" },
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+    $('#busy').hide();
+}
+
+
+
 /**********************
  * USER EDIT RESULT
  **********************/
