@@ -1,4 +1,4 @@
 const APP_CONFIG = {
     redirectUrl: `https://manuelsolispagerduty.github.io/loblaw.github.io/`,
-    clientId: `37e14ac7da1930c2612f9b41ee69eea40087e317f020eb2b9336f4843c59927e`
+    clientId: `c2855a9f-4dac-4f29-ac56-6df96090dfc6`
 };
